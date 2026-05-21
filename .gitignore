@@ -3,3 +3,6 @@ node_modules/
 .env.local
 .vercel
 .DS_Store
+
+# Stripe UI app — keep local only; not versioned in this repo
+surcharge/
