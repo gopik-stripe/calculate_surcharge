@@ -46,7 +46,8 @@ app.post('/calculate_surcharge', express.raw({ type: 'application/json' }), asyn
   //const STRIPE_MAX_PERCENT   = 4.0;   // Stripe's AU platform cap
   const SURCHARGE_PERCENT = 2.0; // Only applicable for Amex cards
 
-  if (payment_method_details?.type !== 'card' && payment_method_details.card.brand !== 'amex') {
+  // Ineligible unless it's a card *and* Amex (`&&` here would only fire for odd combos like non-card + non-amex).
+  if (payment_method_details?.type !== 'card' || payment_method_details?.card?.brand !== 'amex') {
     return res.json({ surcharge_eligible: false });
   }
 
