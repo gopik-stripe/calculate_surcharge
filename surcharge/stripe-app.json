@@ -1,0 +1,19 @@
+{
+  "id": "com.gopik.surcharge-provider",
+  "version": "0.0.1",
+  "name": "Surcharge Calculator",
+  "permissions": [],
+  "ui_extension": {
+    "views": [
+      {
+        "viewport": "stripe.dashboard.home.overview",
+        "component": "Home"
+      }
+    ],
+    "content_security_policy": {
+      "connect-src": null,
+      "image-src": null,
+      "purpose": ""
+    }
+  }
+}

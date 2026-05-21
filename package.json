@@ -1,0 +1,13 @@
+{
+  "name": "calculate-surcharge",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "node server/app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "stripe": "^13.11.0"
+  }
+}
