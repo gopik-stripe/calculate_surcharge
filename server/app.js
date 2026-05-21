@@ -1,14 +1,19 @@
+require('dotenv').config();
+
 const Stripe = require('stripe');
 const express = require('express');
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 if (!stripeSecret) {
-  throw new Error('Missing STRIPE_SECRET_KEY (set in .env locally or in Vercel / hosting env).');
+  throw new Error(
+    'set it in your host (e.g. Vercel → Environment Variables).'
+  );
 }
 const stripe = new Stripe(stripeSecret);
 const app = express();
 
-const SIGNING_SECRET = 'whsec_...'; // from Stripe Dashboard after EventDestination creation
+// Remote function signing secrets (Stripe Dashboard → your remote endpoint / webhook secret)
+const SIGNING_SECRET = process.env.STRIPE_SURCHARGE_SIGNING_SECRET || '';
 const HEALTH_SECRET = process.env.HEALTH_SIGNING_SECRET || '';
 
 // SURCHARGE ENDPOINT
@@ -68,8 +73,7 @@ app.post('/verify-health', express.raw({ type: 'application/json' }), async (req
 module.exports = app;
 
 if (require.main === module) {
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    console.log(`Server listening at http://localhost:${PORT}`);
-  });
+  const { listenWithPortFallback } = require('./listen-dev');
+  const basePort = Number(process.env.PORT) || 3001;
+  listenWithPortFallback(app, basePort);
 }
